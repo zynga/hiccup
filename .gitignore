@@ -1,0 +1,8 @@
+*.pyc
+*.class
+*.db
+*.xlsx
+.DS_Store
+*.bak
+
+burpsuite_*.jar

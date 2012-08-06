@@ -1,0 +1,40 @@
+####################
+defaults:
+  default_plugin_scope: proxy_only   #all, proxy_only, or http_only
+  intercept_enabled: False    #automatically enable/disable intercepts on load - True or False
+  log_format: '[%(module)s] %(message)s'
+  log_level: info             #info or debug
+  plugin_directory: plugins
+  auto_delete_class_files: True  #True or False - autodelete stale class files for disabled plugins
+  default_intercept_action: FOLLOW_RULES
+  #burp_scope_include: ['http://www.google.com',] #must be at least valid scheme://host URL
+  #burp_scope_exclude: ['http://www.microsoft.com',]
+internals: [] # reserved for internal Hiccup use
+state: []     # reserved for internal Hiccup use
+callbacks: [] # reserved for internal Hiccup use
+####################
+ConditionalIntercepts:
+  body_contains: ['internal only'] 
+  header_exists: [x-hacker]             #triggered by wordpress.com
+  headers_contain: ['DROP TABLE ']      #triggered by reddit.com
+  host_contains: [google.com]
+  url_contains: [admin]
+ContentReplace:
+  targets:
+  - [' the ', ' FOO ']
+  - [' and ', ' MEH ']
+CookieProfiler:
+  output_file: cookie-summary.xlsx
+  write_after: 20
+DatabaseLogger:
+  storable_types: [ 'text/','application/json', 'application/javascript', 'application/x-javascript', 'application/ecmascript', 'application/x-www-form-urlencoded' ]
+  output_file: logger.db
+DropMatches:
+  domains: [domaintodrop.com, otherdomaintodrop.com]
+  hosts: [specific.hostname.com, specific2.hostname.com]
+HeaderReplace:
+  targets:
+  - ['Firefox', 'FireDUCK']
+JsonManipulation:
+  delete_keys: [about]                      #test against jsonip.com
+  set_values: {ip: foo, nokey: noworries }  #test against jsonip.com
