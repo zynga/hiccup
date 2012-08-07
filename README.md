@@ -3,6 +3,10 @@ Hiccup - Burp Suite Python Extensions
 
 Hiccup is a framework that allows the Burp Suite (a web application security testing tool, [http://portswigger.net/burp/](http://portswigger.net/burp/)) to be extended and customized, through the interface provided by Burp Extender ([http://portswigger.net/burp/extender/](http://portswigger.net/burp/extender/)).  Its aim is to allow for the development and integration of custom testing functionality into the Burp tool using Python request/response handler plugins.
 
+TLDR
+----
+Hiccup lets you write Python plugins for Burp that allow for customized handling of requests, responses, and menuitem clicks.  The quickest way to see what Hiccup supports is to look at the example plugins, in plugins/disabled.
+
 
 Installing and Using Hiccup
 ---------------------------
