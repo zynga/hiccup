@@ -10,7 +10,7 @@ class Message:
 
     def __init__(self, config, toolName, messageReference, messageIsRequest, remoteHost,
                  remotePort, serviceIsHttps, httpMethod, url, resourceType, statusCode,
-                 responseContentType, message, interceptAction):
+                 responseContentType, message, interceptAction, messageInfo=None):
         #create new Message object, based on data passed in from Burp
         self.logger = logging.getLogger()
         self.global_config = config
@@ -55,6 +55,7 @@ class Message:
         self.message['interceptaction'] = interceptAction[0]
         self.message['highlight'] = None
         self.message['comment'] = None
+        self.message['messageinfo'] = messageInfo
 
     def is_changed(self):
         if (self.message['raw'].tostring() == self.message['headers'] + self.message['body']):

@@ -14,6 +14,7 @@ class Highlighter (BasePlugin.BasePlugin):
 
     def __init__(self, global_config):
         BasePlugin.BasePlugin.__init__(self, global_config, self.required_config, self.plugin_scope)
+        self.global_config.register_menuitem('Highlight yellow', self.plugin_name)
 
     def process_request(self, message):
         self.process_message(message)
@@ -27,3 +28,9 @@ class Highlighter (BasePlugin.BasePlugin):
             message.set_highlight('cyan')
         if message.body_contains('internal only'):
             message.set_highlight('red')
+
+    def process_menuitem_click(self, caption, messages):
+        self.logger.debug("processing menuclick '%s'" % caption)
+        if (caption == 'Highlight yellow'):
+            for m in messages:
+                m.set_highlight('yellow')

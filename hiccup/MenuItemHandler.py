@@ -34,12 +34,20 @@ class MenuItemHandler(IMenuItemHandler):
             #deal with request
             messages.append(Message.Message(self.global_config, 'clicked', messageReference, True,
                             remoteHost, remotePort, serviceIsHttps, httpMethod, url, resourceType,
-                            '', responseContentType, messageInfo.getRequest(), interceptAction))
+                            '', responseContentType, messageInfo.getRequest(), interceptAction, messageInfo))
             #and response
             messages.append(Message.Message(self.global_config, 'clicked', messageReference, False,
                             remoteHost, remotePort, serviceIsHttps, httpMethod, url, resourceType,
-                            messageInfo.getStatusCode(), responseContentType, messageInfo.getResponse(), interceptAction))
+                            messageInfo.getStatusCode(), responseContentType, messageInfo.getResponse(),
+                            interceptAction, messageInfo))
         self.plugin_manager.process_menuitem_click(menuItemCaption, messages)
+        for message in messages:
+            if message.is_highlighted():
+                self.logger.debug("need to update highlight for msg : %s" % message)
+                message['messageinfo'].setHighlight(message.get_highlight())
+            if message.is_commented():
+                self.logger.debug("need to update comment for msg : %s" % message)
+                message['messageinfo'].setComment(message.get_comment())
 
     def set_plugin_manager(self, mgr):
         self.plugin_manager = mgr

@@ -165,7 +165,7 @@ class PluginManager:
             else:
                 self.logger.debug("plugin '%s' is not in scope, SKIPPING" % key)
 
-    def process_menuitem_click(self, caption, message):
+    def process_menuitem_click(self, caption, messages):
         self.logger.debug("process_menuitem_click() called with caption '%s'" % caption)
         self.logger.debug("current handler_map : %s" % self.global_config['internals']['handler_map'])
         if (caption in self.global_config['internals']['handler_map']):
@@ -173,7 +173,7 @@ class PluginManager:
             self.logger.debug("click '%s' maps to plugin '%s'" % (caption, pname))
             if (pname in self.pluginobjs):
                 if (hasattr(self.pluginobjs[pname], 'process_menuitem_click') and inspect.ismethod(self.pluginobjs[pname].process_menuitem_click)):
-                    self.pluginobjs[pname].process_menuitem_click(caption, message)
+                    self.pluginobjs[pname].process_menuitem_click(caption, messages)
                 else:
                     self.logger.error("could not process menu click, plugin '%s' has no process_menuitem_click() function" % pname)
             else:
