@@ -3,7 +3,7 @@
 set COUNT=0
 
 set STARTDIR=%CD%\
-set BATDIR=%~dp0
+set BATDIR=%~dps0
 cd /D %BATDIR%
 
 for /f "tokens=*" %%a in ( 
