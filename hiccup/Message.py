@@ -4,7 +4,7 @@
 from hiccup import SharedFunctions as shared
 from java.net import URL
 
-import re, logging, urlparse
+import re, logging, urlparse, array
 
 class Message:
 
@@ -35,6 +35,8 @@ class Message:
         else:
             self.message['type'] = 'response'
         self.message['ishttps'] = serviceIsHttps
+        if message == None:
+            message = array.array('B', '') #deal with case with menuItemHandler does not get full message sets
         self.message['raw'] = message
         (self.message['headers'], self.message['body']) = self._separate_message(message, 'string')
         (self.message['raw-headers'], self.message['raw-body']) = self._separate_message(message, 'raw')
@@ -218,8 +220,8 @@ class Message:
                     break
         if (headers == ''):
             #we didn't find the CRLF-CRLF marker -> case where there are only headers, no content
-            headers = message
-            content = array.array('B', '')
+            headers = rawmsg
+            content = array.array('B', '')  #content is an empty byte array
         if (format == 'string'):
             return (headers.tostring(), content.tostring())
         else:
