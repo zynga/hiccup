@@ -21,13 +21,13 @@ class MenuItemHandler(IMenuItemHandler):
         self.logger.debug("menuItemClicked : %s" % menuItemCaption)
         messages = []
         for messageInfo in selectedMessages:
-            self.logger.debug("menuItemClicked() messageInfo : %s" % messageInfo)
             messageReference = '~'
             remoteHost = messageInfo.getHost()
             remotePort = messageInfo.getPort()
             serviceIsHttps = True if messageInfo.getProtocol() == 'https' else False
             httpMethod = ''
             url = '%s://%s%s' % (messageInfo.getUrl().getProtocol(), messageInfo.getUrl().getHost(), messageInfo.getUrl().getPath())
+            self.logger.debug("menuItemClicked() : %s [%s] %s" % (messageInfo, messageReference, url))
             resourceType = ''
             responseContentType = ''
             interceptAction = ['',]
