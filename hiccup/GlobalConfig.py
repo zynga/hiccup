@@ -43,6 +43,20 @@ class GlobalConfig:
                     self.config_callbacks.setProxyInterceptionEnabled(True)
                 else:
                     self.config_callbacks.setProxyInterceptionEnabled(False)
+            listener_defined = False
+            default_listener_port = 8080
+            if 'listener_port' in self.config_data[self.base_section]:
+                if isinstance(self.config_data[self.base_section]['listener_port'], int):
+                    if (self.config_data[self.base_section]['listener_port'] > 0 and
+                        self.config_data[self.base_section]['listener_port'] < 65537):
+                            listener_defined = True
+                            self.logger.debug('read listener port from config : %s' % self.config_data[self.base_section]['listener_port'])
+                    else:
+                        self.logger.error("configuration item 'listener_port' must be a valid port number - defaulting to %s" % default_listener_port)
+                else:
+                    self.logger.error("configuration item 'listener_port' must be a number - defaulting to %s" % default_listener_port)
+            if (listener_defined == False):
+                self.config_data[self.base_section]['listener_port'] = default_listener_port
             if 'burp_scope_include' in self.config_data[self.base_section]:
                 for item in self.config_data[self.base_section]['burp_scope_include']:
                     self.logger.debug("adding '%s' to Burp scope" % item)
@@ -59,7 +73,7 @@ class GlobalConfig:
             for status in ('2xx', '3xx', '4xx', '5xx'):
                 tmpconf['%s.showstatus%s' % (name, status)] = 'true'
         tmpconf['proxy.interceptresponses'] = 'true'
-        tmpconf['proxy.listener0'] = '1.8080.0.0..0.0.1.0..0..0.'
+        tmpconf['proxy.listener0'] = '1.%s.0.0..0.0.1.0..0..0.' % self.config_data[self.base_section]['listener_port']
         self['callbacks'].loadConfig(tmpconf)
         self.logger.debug("added callbacks")
 

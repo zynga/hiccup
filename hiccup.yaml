@@ -7,6 +7,7 @@ defaults:
   plugin_directory: plugins
   auto_delete_class_files: True  #True or False - autodelete stale class files for disabled plugins
   default_intercept_action: FOLLOW_RULES
+  #listener_port: 8081   #defaults to 8080 if not set here
   #burp_scope_include: ['http://www.google.com',] #must be at least valid scheme://host URL
   #burp_scope_exclude: ['http://www.microsoft.com',]
 internals: [] # reserved for internal Hiccup use
