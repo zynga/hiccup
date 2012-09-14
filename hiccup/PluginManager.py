@@ -128,12 +128,15 @@ class PluginManager:
 
     def in_plugin_scope(self, message, key):
         if self.pluginobjs[key].scope_all():
+            self.logger.debug('in_plugin_scope() returning True for scope_all()');
             return True
         elif self.pluginobjs[key].scope_proxy_only() and message.from_proxy():
+            self.logger.debug('in_plugin_scope() returning True for scope_proxy_only()');
             return True
         elif self.pluginobjs[key].scope_http_only() and message.from_proxy() == False:
+            self.logger.debug('in_plugin_scope() returning True for scope_http_only()');
             return True
-        return False
+        return False  #this case will catch 'menuitem_only' scopes, which should not be processed here
 
     def process_request(self, message):
         self.logger.debug("process_request called")

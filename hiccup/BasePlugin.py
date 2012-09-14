@@ -15,7 +15,8 @@ class BasePlugin:
     plugin_scopes = {
         'all': 0,
         'proxy_only': 1,
-        'http_only': 2
+        'http_only': 2,
+        'menuitem_only': 3
     }
 
     def __init__(self, global_config, reqdconf=[], plugin_scope=None):
@@ -30,6 +31,7 @@ class BasePlugin:
             self.logger.error("plugin provided invalid scope '%s', using default '%s'" % (plugin_scope, global_config['defaults']['default_plugin_scope']))
             plugin_scope = global_config['defaults']['default_plugin_scope']
         self.plugin_scope = plugin_scope
+        self.logger.debug("plugin initializing with scope : %s" % plugin_scope)
         self.required_config = reqdconf
         if self.global_config.test_plugin_config(self.plugin_name, reqdconf):
             self.config_complete = True
@@ -47,5 +49,9 @@ class BasePlugin:
     def scope_http_only(self):
         return self.plugin_scopes[self.plugin_scope] == self.plugin_scopes['http_only']
 
+    def scope_menuitem_only(self):
+        return self.plugin_scopes[self.plugin_scope] == self.plugin_scopes['menuitem_only']
+
     def scope_all(self):
         return self.plugin_scopes[self.plugin_scope] == self.plugin_scopes['all']
+
