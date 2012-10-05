@@ -136,6 +136,8 @@ class BurpExtender(IBurpExtender):
             serviceIsHttps = True if messageInfo.getProtocol() == 'https' else False
             httpMethod = ''
             url = '%s://%s%s' % (messageInfo.getUrl().getProtocol(), messageInfo.getUrl().getHost(), messageInfo.getUrl().getPath())
+            if (messageInfo.getUrl().getQuery() != None):
+                url = '%s?%s' % (url, messageInfo.getUrl().getQuery())
             resourceType = ''
             statusCode = '' if messageIsRequest else messageInfo.getStatusCode()
             responseContentType = ''
